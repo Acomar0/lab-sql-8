@@ -94,14 +94,17 @@ group by r1.customer_id, r2.customer_id
 order by num_films asc;
 
 -- For each film, list actor that has acted in more films.
-select f.title as title, concat(a.First_name, ' ', a.Last_name) as Full_name,  COUNT(*) OVER (PARTITION BY f.title) as number_of_films
+select f.title as title, concat(a.First_name, ' ', a.Last_name) as Full_name,  ROW_NUMBER() OVER (PARTITION BY f.title) as number_of_films
 from actor a
-inner join film_actor fa
+join film_actor fa
 on fa.actor_id = a.actor_id
-inner join film f
+join film f
 on  fa.film_id = f.film_id
 group by title, Full_name
 order by number_of_films desc;
+
+
+
 
 
 
